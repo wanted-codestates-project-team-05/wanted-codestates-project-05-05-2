@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { AiFillDelete, AiFillEdit } from "react-icons/ai";
 import "./reset.css";
 import "./App.css";
 
@@ -17,6 +18,8 @@ function App() {
     () => JSON.parse(window.localStorage.getItem("square")) || []
   );
   const [isDrawing, setIsDrawing] = useState(false);
+  const [isModify, setIsModify] = useState(false);
+  const [modifyData, setModifyData] = useState({});
   let src = `https://sun-learning-ff8.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F451a2619-a21b-462d-bb59-a50196e3057a%2Ffashion-unsplash.jpg?table=block&id=efd09440-86df-4dcc-ae21-29097de2bc9b&spaceId=06605955-0fd9-4614-ba9a-0812be412dbe&width=2000&userId=&cache=v2`;
   let image = new Image();
   image.src = src;
@@ -66,7 +69,7 @@ function App() {
 
   const startDraw = ({ nativeEvent }) => {
     if (nativeEvent.which === 3) return;
-    resetCanvas();
+    // resetCanvas();
     setPos({
       ...pos,
       stx: nativeEvent.offsetX,
@@ -91,12 +94,27 @@ function App() {
     if (!isDrawing) return;
     const text = window.prompt("영역의 이름을 정해주세요.");
     resetCanvas();
-    setPos({
-      ...pos,
-      text,
-      id: datas[datas.length - 1] ? datas[datas.length - 1].id + 1 : 0,
-    });
+    //수정
+    if (isModify) {
+      setPos({
+        ...pos,
+        text,
+        id: modifyData.id,
+      });
+    } else {
+      setPos({
+        ...pos,
+        text,
+        id: datas[datas.length - 1] ? datas[datas.length - 1].id + 1 : 0,
+      });
+    }
     setIsDrawing(false);
+  };
+
+  const modifyDraw = (data) => {
+    setIsModify(true);
+    setModifyData(data);
+    alert(data.text + " 영역 수정하겠습니다");
   };
 
   // 시작할 때 canvas세팅
@@ -115,7 +133,14 @@ function App() {
   useEffect(() => {
     if (pos.text && !isDrawing) {
       resetCanvas();
-      setDatas((prev) => [...prev, pos]);
+      // 수정
+      if (isModify) {
+        const newData = datas.filter((data) => data.id !== pos.id).concat(pos);
+        setDatas(newData);
+        setIsModify(false);
+      } else {
+        setDatas((prev) => [...prev, pos]);
+      }
       setPos({ stx: 0, sty: 0, w: 0, h: 0, id: 0, text: "" });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -141,15 +166,21 @@ function App() {
             return (
               <li key={idx}>
                 {data.text}
-                <button
-                  onClick={() =>
-                    setDatas((prev) =>
-                      prev.filter((item) => item.id !== data.id)
-                    )
-                  }
-                >
-                  x
-                </button>
+                <div id="btnBox">
+                  <button id="edit" onClick={() => modifyDraw(data)}>
+                    <AiFillEdit size={16} />
+                  </button>
+                  <button
+                    id="delete"
+                    onClick={() =>
+                      setDatas((prev) =>
+                        prev.filter((item) => item.id !== data.id)
+                      )
+                    }
+                  >
+                    <AiFillDelete size={16} />
+                  </button>
+                </div>
               </li>
             );
           })}
