@@ -10,6 +10,7 @@ image.onload = () => imgDraw();
 const square = [];
 let target = { stx: 0, sty: 0, w: 0, h: 0, id: 0, text: "" };
 let drawing = false;
+let modify = false;
 
 function imgDraw() {
   let width = image.width;
@@ -74,14 +75,14 @@ function reDraw(square) {
 }
 
 canvas.onmousedown = (e) => {
-  if (e.which === 3) return;
+  if (e.which === 3 || modify) return;
   target.stx = e.offsetX - ctx.canvas.offsetLeft;
   target.sty = e.offsetY - ctx.canvas.offsetTop;
   drawing = true;
 };
 
 canvas.onmouseup = (e) => {
-  if (!drawing) return;
+  if (!drawing || modify) return;
   target.text = window.prompt("text");
   target.id = square[square.length - 1] ? square[square.length - 1].id + 1 : 0;
   clearCanvas();
@@ -119,3 +120,37 @@ canvas.onmousemove = (e) => {
   ctx.globalAlpha = 1;
   ctx.strokeRect(target.stx, target.sty, target.w, target.h);
 };
+
+// modify, delete handler
+document.addEventListener("click", function (e) {
+  if (e.target && e.target.className == "item") {
+    square.filter((item, index) => {
+      if (item.text === e.target.innerText) {
+        console.log(item);
+        // 수정
+        const { stx, sty, w, h, id, text } = item;
+        target = { stx, sty, w, h, id, text };
+        modify = true;
+        drawing = true;
+        canvas.onmousedown = (e) => {
+          target.text = window.prompt("text");
+          target.id = id;
+          clearCanvas();
+          square[index] = target;
+          draw(target);
+          addTitle(square);
+          target = { stx: 0, sty: 0, w: 0, h: 0, text: "" };
+          drawing = false;
+          modify = false;
+          reDraw(square);
+          console.log(square);
+        };
+
+        // 삭제
+        // square.splice(index, 1);
+        // console.log(square);
+        // reDraw(square);
+      }
+    });
+  }
+});
