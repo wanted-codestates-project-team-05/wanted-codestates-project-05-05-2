@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { AiFillDelete, AiFillEdit } from "react-icons/ai";
 import "./reset.css";
 import "./App.css";
-
+// test
 function App() {
   const canvasRef = useRef(null);
   const [ctx, setCtx] = useState();
