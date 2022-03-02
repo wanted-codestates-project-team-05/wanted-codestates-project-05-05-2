@@ -1,0 +1,20 @@
+@import url("https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@700&display=swap");
+* {
+  box-sizing: border-box;
+  font-family: "Libre Baskerville";
+}
+
+div {
+  position: relative;
+}
+
+#title-list {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: white;
+  min-width: 50px;
+  padding: 20px 10px;
+  font-weight: bold;
+  list-style-type: outside;
+}
