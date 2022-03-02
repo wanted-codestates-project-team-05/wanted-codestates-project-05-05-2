@@ -1,11 +1,16 @@
 * {
-  box-sizing: border-box;
-  font-family: sans-serif;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  font-family: "Libre Baskerville";
 }
 
 .App {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 .container {
   position: relative;
@@ -22,7 +27,7 @@ ul {
   left: 10px;
   background-color: white;
   min-width: 50px;
-  padding: 20px 10px;
+  padding: 20px 20px;
   font-weight: bold;
   list-style: none;
 }
@@ -31,3 +36,4 @@ ul li {
   display: flex;
   gap: 5px;
 }
+

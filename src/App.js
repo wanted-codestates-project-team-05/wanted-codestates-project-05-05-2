@@ -1,5 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
-import "./App.css";
+import React, { useEffect, useRef, useState } from 'react';
+import './reset.css';
+import './App.css';
 
 function App() {
   const canvasRef = useRef(null);
@@ -131,7 +132,11 @@ function App() {
             return (
               <li key={idx}>
                 {data.text}
-                <button onClick={() => setDatas((prev) => prev.filter((item) => item.id !== data.id))}>x</button>
+                <button
+                  onClick={() => setDatas((prev) => prev.filter((item) => item.id !== data.id))}
+                >
+                  x
+                </button>
               </li>
             );
           })}
