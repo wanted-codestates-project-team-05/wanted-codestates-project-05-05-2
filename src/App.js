@@ -1,12 +1,21 @@
-import React, { useEffect, useRef, useState } from 'react';
-import './reset.css';
-import './App.css';
+import React, { useEffect, useRef, useState } from "react";
+import "./reset.css";
+import "./App.css";
 
 function App() {
   const canvasRef = useRef(null);
   const [ctx, setCtx] = useState();
-  const [pos, setPos] = useState({ stx: 0, sty: 0, w: 0, h: 0, id: 0, text: "" });
-  const [datas, setDatas] = useState(() => JSON.parse(window.localStorage.getItem("square")) || []);
+  const [pos, setPos] = useState({
+    stx: 0,
+    sty: 0,
+    w: 0,
+    h: 0,
+    id: 0,
+    text: "",
+  });
+  const [datas, setDatas] = useState(
+    () => JSON.parse(window.localStorage.getItem("square")) || []
+  );
   const [isDrawing, setIsDrawing] = useState(false);
   let src = `https://sun-learning-ff8.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F451a2619-a21b-462d-bb59-a50196e3057a%2Ffashion-unsplash.jpg?table=block&id=efd09440-86df-4dcc-ae21-29097de2bc9b&spaceId=06605955-0fd9-4614-ba9a-0812be412dbe&width=2000&userId=&cache=v2`;
   let image = new Image();
@@ -133,7 +142,11 @@ function App() {
               <li key={idx}>
                 {data.text}
                 <button
-                  onClick={() => setDatas((prev) => prev.filter((item) => item.id !== data.id))}
+                  onClick={() =>
+                    setDatas((prev) =>
+                      prev.filter((item) => item.id !== data.id)
+                    )
+                  }
                 >
                   x
                 </button>
