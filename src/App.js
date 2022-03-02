@@ -23,14 +23,14 @@ function App() {
     ctx.drawImage(image, 0, 0, imgWidth, imgHeight);
   };
 
-  const drawSquare = (data) => {
-    ctx.fillStyle = "#66ff66";
+  const drawSquare = (data, color) => {
+    ctx.fillStyle = color;
     ctx.globalAlpha = 0.2;
     ctx.fillRect(data.stx, data.sty, data.w, data.h);
   };
 
-  const drawStroke = (data) => {
-    ctx.strokeStyle = "#00e6e6";
+  const drawStroke = (data, color) => {
+    ctx.strokeStyle = color;
     ctx.globalAlpha = 1;
     ctx.strokeRect(data.stx, data.sty, data.w, data.h);
   };
@@ -49,8 +49,8 @@ function App() {
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     drawImg(ctx);
     datas.forEach((data) => {
-      drawSquare(data);
-      drawStroke(data);
+      drawSquare(data, "#66ff66");
+      drawStroke(data, "#00e6e6");
       drawText(data);
     });
   };
@@ -74,8 +74,8 @@ function App() {
       h: nativeEvent.offsetY - canvasRef.current.offsetTop - pos.sty,
     });
     resetCanvas();
-    drawSquare(pos);
-    drawStroke(pos);
+    drawSquare(pos, "#ff3399");
+    drawStroke(pos, "#e60073");
   };
 
   const finishDraw = ({ nativeEvent }) => {
