@@ -1,7 +1,6 @@
-@import url("https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@700&display=swap");
 * {
   box-sizing: border-box;
-  font-family: "Libre Baskerville";
+  font-family: sans-serif;
 }
 
 .App {
@@ -11,6 +10,11 @@
 .container {
   position: relative;
 }
+
+canvas {
+  max-width: 100%;
+}
+
 ul {
   margin: 0;
   position: absolute;
@@ -20,4 +24,10 @@ ul {
   min-width: 50px;
   padding: 20px 10px;
   font-weight: bold;
+  list-style: none;
+}
+
+ul li {
+  display: flex;
+  gap: 5px;
 }
