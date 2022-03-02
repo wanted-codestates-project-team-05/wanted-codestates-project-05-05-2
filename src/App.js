@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { AiFillDelete, AiFillEdit } from "react-icons/ai";
 import "./reset.css";
 import "./App.css";
 
@@ -94,7 +95,7 @@ function App() {
     const text = window.prompt("영역의 이름을 정해주세요.");
     resetCanvas();
     //수정
-    if(isModify){
+    if (isModify) {
       setPos({
         ...pos,
         text,
@@ -113,8 +114,8 @@ function App() {
   const modifyDraw = (data) => {
     setIsModify(true);
     setModifyData(data);
-    alert(data.text + ' 영역 수정하겠습니다');
-  }
+    alert(data.text + " 영역 수정하겠습니다");
+  };
 
   // 시작할 때 canvas세팅
   useEffect(() => {
@@ -133,9 +134,9 @@ function App() {
     if (pos.text && !isDrawing) {
       resetCanvas();
       // 수정
-      if(isModify){
+      if (isModify) {
         const newData = datas.filter((data) => data.id !== pos.id).concat(pos);
-        setDatas(newData)
+        setDatas(newData);
         setIsModify(false);
       } else {
         setDatas((prev) => [...prev, pos]);
@@ -165,20 +166,21 @@ function App() {
             return (
               <li key={idx}>
                 {data.text}
-                <button
-                  onClick={() =>
-                    setDatas((prev) =>
-                      prev.filter((item) => item.id !== data.id)
-                    )
-                  }
-                >
-                  x
-                </button>
-                <button
-                  onClick={() => modifyDraw(data)}
-                >
-                edit
-                </button>
+                <div id="btnBox">
+                  <button id="edit" onClick={() => modifyDraw(data)}>
+                    <AiFillEdit size={16} />
+                  </button>
+                  <button
+                    id="delete"
+                    onClick={() =>
+                      setDatas((prev) =>
+                        prev.filter((item) => item.id !== data.id)
+                      )
+                    }
+                  >
+                    <AiFillDelete size={16} />
+                  </button>
+                </div>
               </li>
             );
           })}
