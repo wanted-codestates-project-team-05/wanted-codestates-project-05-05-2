@@ -94,19 +94,31 @@ function App() {
     if (!isDrawing) return;
     const text = window.prompt("영역의 이름을 정해주세요.");
     resetCanvas();
-    //수정
-    if (isModify) {
+    if (!text) {
       setPos({
-        ...pos,
-        text,
-        id: modifyData.id,
+        stx: 0,
+        sty: 0,
+        w: 0,
+        h: 0,
+        id: 0,
+        text: "",
       });
+      setIsModify(false);
     } else {
-      setPos({
-        ...pos,
-        text,
-        id: datas[datas.length - 1] ? datas[datas.length - 1].id + 1 : 0,
-      });
+      //수정
+      if (isModify) {
+        setPos({
+          ...pos,
+          text,
+          id: modifyData.id,
+        });
+      } else {
+        setPos({
+          ...pos,
+          text,
+          id: datas[datas.length - 1] ? datas[datas.length - 1].id + 1 : 0,
+        });
+      }
     }
     setIsDrawing(false);
   };
