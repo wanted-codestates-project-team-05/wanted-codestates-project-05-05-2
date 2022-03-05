@@ -14,9 +14,7 @@ function App() {
     id: 0,
     text: "",
   });
-  const [datas, setDatas] = useState(
-    () => JSON.parse(window.localStorage.getItem("square")) || []
-  );
+  const [datas, setDatas] = useState(() => JSON.parse(window.localStorage.getItem("square")) || []);
   const [isDrawing, setIsDrawing] = useState(false);
   const [isModify, setIsModify] = useState(false);
   const [modifyData, setModifyData] = useState({});
@@ -67,23 +65,25 @@ function App() {
     });
   };
 
-  const startDraw = ({ nativeEvent }) => {
-    if (nativeEvent.which === 3) return;
+  const startDraw = (e) => {
+    if (e.nativeEvent.which === 3) return;
+    const rect = canvasRef.current.getBoundingClientRect();
     resetCanvas();
     setPos({
       ...pos,
-      stx: nativeEvent.offsetX,
-      sty: nativeEvent.offsetY,
+      stx: (e.clientX - rect.left) * (canvasRef.current.width / rect.width),
+      sty: (e.clientY - rect.top) * (canvasRef.current.height / rect.height),
     });
     setIsDrawing(true);
   };
 
-  const drawing = ({ nativeEvent }) => {
+  const drawing = (e) => {
     if (!isDrawing) return;
+    const rect = canvasRef.current.getBoundingClientRect();
     setPos({
       ...pos,
-      w: nativeEvent.offsetX - canvasRef.current.offsetLeft - pos.stx,
-      h: nativeEvent.offsetY - canvasRef.current.offsetTop - pos.sty,
+      w: (e.clientX - rect.left) * (canvasRef.current.width / rect.width) - pos.stx,
+      h: (e.clientY - rect.top) * (canvasRef.current.height / rect.height) - pos.sty,
     });
     resetCanvas();
     drawSquare(pos, "#ff3399");
@@ -161,6 +161,9 @@ function App() {
   // localstorage에 데이터 저장
   useEffect(() => {
     window.localStorage.setItem("square", JSON.stringify(datas));
+    if (datas.length === 0) {
+      window.localStorage.removeItem("square");
+    }
   }, [datas]);
 
   return (
@@ -182,14 +185,7 @@ function App() {
                   <button id="edit" onClick={() => modifyDraw(data)}>
                     <AiFillEdit size={16} />
                   </button>
-                  <button
-                    id="delete"
-                    onClick={() =>
-                      setDatas((prev) =>
-                        prev.filter((item) => item.id !== data.id)
-                      )
-                    }
-                  >
+                  <button id="delete" onClick={() => setDatas((prev) => prev.filter((item) => item.id !== data.id))}>
                     <AiFillDelete size={16} />
                   </button>
                 </div>
