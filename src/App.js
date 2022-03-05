@@ -77,7 +77,7 @@ function App() {
     setIsDrawing(true);
   };
 
-  const drawing = () => {
+  const drawing = (e) => {
     if (!isDrawing) return;
     const rect = canvasRef.current.getBoundingClientRect();
     setPos({
